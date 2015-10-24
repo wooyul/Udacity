@@ -1,2 +1,2 @@
 # Udacity
-Udacity Data analysit Classes
+Udacity Data analyst Classes
