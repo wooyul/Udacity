@@ -5,6 +5,7 @@ import pprint
 import re
 import codecs
 import json
+import audit
 """
 Your task is to wrangle the data and transform the shape of the data
 into the model we mentioned earlier. The output should be a list of dictionaries
@@ -102,9 +103,9 @@ def shape_element(element):
             node['visible'] = str(element.attrib["visible"]).lower()
         created = {}
         for subfield in CREATED:
-
-            if element.attrib[subfield] !=None:
+            if subfield in element.attrib and element.attrib[subfield] is not None:
                 created[subfield] = element.attrib[subfield]
+
         if 'lat' in element.attrib and 'lon' in element.attrib:
 
             pos = [float(element.attrib['lat']),float(element.attrib['lon'])]
@@ -115,10 +116,14 @@ def shape_element(element):
             if tag.attrib['k'].find("addr:") >=0:
                 k_ = tag.attrib['k'].replace('addr:','')
                 if k_.find(":") <0:
-                    addr[k_] = tag.attrib['v']
+                    # Fix unexpected street name
+                    if k_ == "street":
+                        addr[k_] = audit.update_name(tag.attrib['v'], audit.mapping)
+                    else:
+                        addr[k_] = tag.attrib['v']
 
             else:
-               node[tag.attrib['k']]  = tag.attrib['v']
+                node[tag.attrib['k']]  = tag.attrib['v']
         node_ref = []
 
         if addr !={}:
@@ -130,6 +135,7 @@ def shape_element(element):
         return node
     else:
         return None
+
 
 def process_map(file_in, pretty = False):
     # You do not need to change this file
@@ -169,7 +175,7 @@ def test():
     assert data[0] == correct_first_elem
     print(data[-1])
     assert data[-1]["address"] == {
-                                    "street": "West Lexington St.", 
+                                    "street": "West Lexington Street",
                                     "housenumber": "1412"
                                       }
     assert data[-1]["node_refs"] == [ "2199822281", "2199822390",  "2199822392", "2199822369", 

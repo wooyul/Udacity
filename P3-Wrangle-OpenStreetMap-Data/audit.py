@@ -19,13 +19,28 @@ street_type_re = re.compile(r'\b\S+\.?$', re.IGNORECASE)
 
 
 expected = ["Street", "Avenue", "Boulevard", "Drive", "Court", "Place", "Square", "Lane", "Road", 
-            "Trail", "Parkway", "Commons"]
+            "Trail", "Parkway", "Commons", "Way", " Plaza", "Circle"]
 
 # UPDATE THIS VARIABLE
 mapping = { "St": "Street",
             "St.": "Street",
+            "st" : "Street",
+            "street" :"Street",
+            "Rd" : "Road",
             "Rd.": "Road",
-            "Ave" : "Avenue"
+            "Ave" : "Avenue",
+            "Pl" : "Place",
+            "avenue" : "Avenue",
+            "Blvd" : "Boulevard",
+            "Blvd." : "Boulevard",
+            "Boulavard" : "Boulevard",
+            "Boulvard" : "Boulevard",
+            "Dr." : "Drive",
+            "Dr" : "Drivce",
+            "Ln" : "Lane",
+            "Ln." : "Lane",
+            "Plz" : "Plaza",
+            "parkway" : "Parkway"
             }
 
 
@@ -56,10 +71,13 @@ def audit(osmfile):
 
 def update_name(name, mapping):
 
-    for k, v in mapping.items():
-        if name.find(k) >=0:
-            name = name.replace(k,v)
-            break
+    m = street_type_re.search(name)
+    if m:
+        v = mapping.get(m.group())
+        if v:
+            old_name = name
+            name = name.replace(m.group(), v)
+            print("Replaced", old_name, name)
     return name
 
 

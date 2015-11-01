@@ -1,0 +1,5 @@
+San Francisco Bay Area
+I selected this area because I currently live in this area, and I may want to use this data set for my other personal projects.
+
+Link:
+http://osm-extracted-metros.s3.amazonaws.com/sf-bay-area.osm.bz2
