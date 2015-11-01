@@ -119,6 +119,8 @@ def shape_element(element):
                     # Fix unexpected street name
                     if k_ == "street":
                         addr[k_] = audit.update_name(tag.attrib['v'], audit.mapping)
+                    elif k_ == "city":
+                        addr[k_] = audit.update_name_city(tag.attrib['v'], audit.mapping_city)
                     else:
                         addr[k_] = tag.attrib['v']
 

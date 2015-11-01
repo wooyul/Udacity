@@ -28,3 +28,13 @@ db.sfmap.aggregate(
 ]
 )
     
+//Group by city
+db.sfmap.aggregate(
+[
+    {$match : {"address.city" : {"$exists" : true}}},
+    {$project: {"city" : "$address.city"}},
+    {$group: {"_id" : "$city" ,"count" : {"$sum":1}}},
+    {$sort : {"count" : -1}}
+]
+)
+    
