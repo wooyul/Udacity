@@ -1,0 +1,216 @@
+---
+title: "Red Wine Quality Analysis"
+output: html_document
+---
+
+```{r}
+wq <- read.csv('wineQualityReds.csv')
+library(ggplot2)
+```
+
+#Univariate Analysis
+```{r}
+summary(wq)
+```
+
+###Distribution of quality
+```{r}
+ggplot(aes(x = quality), data = wq) +
+  geom_histogram()
+```
+
+Most red wines are rated between 5 and 7. Only a very few number of wines are outside the range. Considering that # of wines with rating 8 is so small, it may not be very meaningful to look at the data associated with quality 8. 
+
+```{r}
+ggplot(aes(x = volatile.acidity), data = wq) +
+  geom_histogram() 
+
+ggplot(aes(x = alcohol), data = wq) +
+  geom_histogram() 
+```
+
+Alchol's distribution is skewed right.
+
+```{r}
+ggplot(aes(x = sulphates), data = wq) +
+  geom_histogram() 
+
+ggplot(aes(x = citric.acid), data = wq) +
+  geom_histogram() 
+```
+
+Many wines don't have citric.acid at all.
+
+
+#Bivariate Analysis
+### Correlation between quality and other metrics
+```{r}
+cor(wq)
+```
+
+Based on the correlation analysis, alcohol, volatile.acidity, sulphates, and citric.acid are strongly correlated with wine qualtiy. 
+
+There are several chemical properties that are strongly correlated each other: pH, fixed.acidity, citric.acid
+
+I wanted to see how the scatter plot of quality vs strongly correlated properties.
+### Scatter plots of most correlated chemical properties vs quality
+
+```{r}
+ggplot(aes(x = volatile.acidity, y= quality), data = wq) + geom_jitter()
+```
+
+As the volatile acidity decreases, wine quality improves even though the same quality wine has various acidity levels. For the highest quality wines (quality 7 and 8), acdity level is mostly below 0.7. So, this implies that too high level of acidity level gives a bad taste (as explained in the document), and such wines won't get a good qulity score.
+
+```{r}
+ggplot(aes(x = alcohol, y= quality), data = wq) + geom_jitter()
+```
+
+As the alcohol level increases, wine quality improves. For the highest quality wines (quality 7 and 8), alcohol levels are mostly over 10. 
+
+```{r}
+ggplot(aes(x = sulphates, y= quality), data = wq) + geom_jitter()
+```
+
+As the sulphates level increase, wine quality improves. For the very high quality wines, sulphates levels are mostly over 0.5.
+
+```{r}
+ggplot(aes(x = citric.acid, y= quality), data = wq) + geom_jitter()
+```
+
+citric.acid has a relatively strong correlation with quality (0.23). The document explains that it can add "freshness", but based on this plot, it is not clear whether citric.acid really affects the wine quality.
+
+```{r}
+ggplot(aes(x = citric.acid, y= volatile.acidity), data = wq) + geom_jitter()
+```
+
+As citric.acid increases, volatile.acidity decreases. 
+
+###Box plot: quality vs volatile.acidity
+Tring to show the characteristics of chemical properties for a given quality. 
+
+```{r}
+ggplot(aes(x = factor(quality), y= volatile.acidity), data = wq) + geom_boxplot()
+
+ggplot(aes(x = factor(quality), y= alcohol), data = wq) + geom_boxplot()
+
+ggplot(aes(x = factor(quality) , y= sulphates), data = wq) + geom_boxplot() 
+
+ggplot(aes(x = factor(quality) , y= citric.acid), data = wq) + geom_boxplot() 
+
+ggplot(aes(x = factor(quality) , y= density), data = wq) + geom_boxplot() 
+```
+
+Overall, box plots show the relationship between quality and chemical properties well. For example, mean volatile.acidity of qulaity 7 and 8 wines is around 0.4 while mean volatile.acidity of qulaity 3 wine is around 0.8. The mean alchol level of quality 7 and 8 wines is close to 12 while the mean alchol level of quality 3 and 4 wines is close to 10.
+
+###Box plot: qulity vs residual.sugar
+```{r}
+ggplot(aes(x = factor(quality) , y= residual.sugar), data = wq) + geom_boxplot() 
+```
+
+Interested in the impact of residual sugar level, and it seems that the residual sugar level doesn't vary much for different quality wines.
+
+###Box plot: qulity vs total.sulfur.dioxide when free.sulfur.dioxide>50
+```{r}
+ggplot(aes(x = factor(quality) , y= total.sulfur.dioxide), data = 
+subset(wq, free.sulfur.dioxide>50)) + geom_boxplot() 
+```
+
+The document that explains wine data indicates that total.sulfur.dioxide affects the taste of wine if free.sulfur.dioxide is over 50ppm. Based on this box plot, it seems that better quality wines have lower level of total.sulfur.dioxide, but it is hard to make a conclusion because # of samples is small (16 samples over 50ppm)
+
+###Box plot: Discretized volatile acidity vs quality
+
+```{r}
+wq$volatile.acidity.disc <- round(wq$volatile.acidity*5)/5
+wq$volatile.acidity.disc <- pmin(1,wq$volatile.acidity.disc)
+wq$volatile.acidity.disc <- pmax(0.2,wq$volatile.acidity.disc)
+ggplot(aes(x = factor(volatile.acidity.disc) , y= quality), data = wq) + geom_boxplot() 
+```
+
+It seems that the very high level of volatile acidity degrades the wine quality, and very low level of volatile acidity improves the wine quality
+
+###Box plot: Discretized alcohol vs quality
+
+```{r}
+wq$alcohol.disc <- round(wq$alcohol)
+ggplot(aes(x = factor(alcohol.disc) , y= quality), data = wq) + geom_boxplot() 
+```
+
+It seems that the  high level of alchol improves the wine quality. 
+
+#Multivariate Analysis
+### volatile.acidity, alchol vs quality
+```{r}
+library(RColorBrewer)
+wq$alcohol.disc <- round(wq$alcohol)
+ggplot(aes(x = volatile.acidity, y=quality, color = factor(alcohol.disc)), data = wq) +
+  geom_jitter() +
+  scale_color_brewer(type = 'div')
+```
+
+### volatile.acidity, alchol vs quality
+```{r}
+wq$volatile.acidity.disc <- round(wq$volatile.acidity*5)/5
+wq$volatile.acidity.disc <- pmin(1,wq$volatile.acidity.disc)
+wq$volatile.acidity.disc <- pmax(0.2,wq$volatile.acidity.disc)
+ggplot(aes(x = alcohol, y=quality, color = factor(volatile.acidity.disc)), data = wq) +
+  geom_jitter() +
+  scale_color_brewer(type = 'div')
+```
+
+Limited the range of acidity level between 0.2 and 1
+Discretize the alcohol level to understand volatile.acdity vs quality for the given alcohol level. 
+
+###Linear model
+
+```{r}
+m1 <- lm(quality ~ alcohol , data = wq )
+m2 <- update(m1, ~ . + volatile.acidity)
+m3 <- update(m2, ~ . + sulphates)
+m4 <- update(m3, ~ . + citric.acid)
+m5 <- update(m4, ~ . + total.sulfur.dioxide)
+library(memisc)
+mtable(m1, m2, m3, m4, m5)
+```
+
+citric.acid and total.sulfur.dioxide don't imporve R-squred. The R-squared is not high enough to explain the variation in the quality, but considering that the quality is a very subjective metric depending on people's tastes, this number may not be too bad. 
+
+#Final Plots and Summary
+
+###Plot 1
+```{r}
+ggplot(aes(x = factor(quality), y= volatile.acidity), data = wq) +     
+  geom_boxplot() + ggtitle("Volatile acidity by Quality") + 
+  xlab("Quality") + ylab("Volatile acidity (g/dm^3)") 
+```
+
+Higher quality wines has less volatile acidity. Mean mean volatile.acidity of qulaity 7 and 8 wines is around 0.4 while mean volatile.acidity of qulaity 3 wine is around 0.8. 
+
+###Plot 2
+```{r}
+ggplot(aes(x = factor(quality), y= alcohol), data = wq) + 
+  geom_boxplot() + ggtitle("Alcohol level by Quality") + 
+  xlab("Quality") + ylab("Alcohol (% by volume)") 
+```
+
+Higher quality wines has higher alcohol levels. The mean alchol level of quality 7 and 8 wines is close to 12 while the mean alchol level of quality 3 and 4 wines is close to 10.
+
+###Plot 3
+```{r}
+ggplot(aes(x = volatile.acidity, y=quality, color = factor(alcohol.disc)), data = wq) +
+  geom_jitter() +
+  scale_color_brewer(type = 'div') +
+  ggtitle("Quality by Volatile acidity and Alcohol") +
+  xlab("Volatile acidity (g/dm^3)") +
+  ylab("Quality") +
+  labs(color = "Alcohol")
+```
+
+Higher quality wines tend to have higher alcohol levels, and lower volatile acidity.
+
+#Reflection
+
+This wine data set includes 1599 samples with 12 chemical properties and one quality score. The main purpose of this analysis is to find out which chemical properties detemines the quality of wines.
+
+I first studied individual variables to understand how they distributed. Then, I looked at correlations between chemical properties and quality. Based on the correlations, volatile acid and alcohol levels are strongly correlated with qualtiy, so I started looking into more details. 
+
+Based on the study, it is clear that volatile acid and alcohol levels affects the quality of wines, and people willl get different tastes. However, R-squared from the liner model was not high enough to explain all the variations in the quality, which means that people will give different scores for different reasons. Considering that wine quality is a very subjective metric, I also didn't expect to see very high R-squred, but I think it will be interesting to get other properties that may affect wine qualities. It may also depend on people who judge the qualities because each person has different tastes, or preferences. Nonetheless, I think this analysis can identify the most important chemical properties that determine the quality of wines, which can help consumers or manufatures to select or make better wines.
