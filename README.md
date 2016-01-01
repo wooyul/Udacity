@@ -1,3 +1,2 @@
 # Udacity
-Udacity Data analyst Classes
-TEST
+Data analyst program project repository
