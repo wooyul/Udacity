@@ -1,1 +1,4 @@
-README
+Final project for intro to machine learning
+intro_to_machine_learning_project_report.pdf : Final project
+poi_id.py: POI Identification code
+*.pkl: Pickle files for the classifiers and data set.
