@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://dimplejs.org/dist/dimple.v2.0.0.min.js"></script>
+    
+    <style>
+      h2 {
+        text-align: center;
+      }
+    </style>
+  </head>
+<body>
+<div class="container">
+  <h2 class="text-center">Baseball Player Performance</h1>
+    <div>
+      <form id="input">
+        <label> Select the variable for x axis:</label>
+        <input type="radio" name="myRadio" onclick="read(this)" value="height"> Height 
+        <input type="radio" name="myRadio" onclick="read(this)" value="weight"> Weight
+      </form>
+    </div>
+</div>
+<script src ="js/baseball.js">
+</script>
+</body>
+</html>
