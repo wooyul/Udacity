@@ -67,12 +67,14 @@ function draw(data, userInput) {
             
     var y1 = myChart.addMeasureAxis("y", "HR");
     var y2 = myChart.addMeasureAxis("y", "avg");
-    y1.title = "Home Run";
-    y2.title = "Batting Average"
+    y1.title = "Number of Home Runs";
+    y2.title = "Batting Average (Number of hits divided by at bats)"
     y2.tickFormat = ',.3f';
     x.fontSize = 15;
     y1.fontSize = 15;
     y2.fontSize = 15;
+    y1.showGridlines = false;
+    y2.showGridlines = false;
     
     var series1 = myChart.addSeries("Home Run", dimple.plot.line, [x, y1]);
     var series2 = myChart.addSeries("Batting Average", dimple.plot.line,[x, y2]);
