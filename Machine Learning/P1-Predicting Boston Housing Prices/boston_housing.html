@@ -196,7 +196,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Importing a few necessary libraries</span>
@@ -262,7 +262,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Number of houses in the dataset</span>
@@ -426,26 +426,19 @@ Ensure that you have executed the code block once you are done. You'll know the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Put any import statements you need for this code block here</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+
 <span class="k">def</span> <span class="nf">shuffle_split_data</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Shuffles and splits data into 70% training and 30% testing subsets,</span>
 <span class="sd">        then returns the training and testing subsets. &quot;&quot;&quot;</span>
 
     <span class="c1"># Shuffle and split the data</span>
-    <span class="n">N_train</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="n">total_houses</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">))</span>
-    <span class="n">index</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">total_houses</span><span class="p">)</span>
-    <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">index_train</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">N_train</span><span class="p">]</span>
-    <span class="n">index_test</span> <span class="o">=</span> <span class="n">index</span><span class="p">[</span><span class="n">N_train</span><span class="p">:]</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.30</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
     
-    <span class="n">X_train</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">index_train</span><span class="p">]</span>
-    <span class="n">y_train</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">index_train</span><span class="p">]</span>
-    <span class="n">X_test</span> <span class="o">=</span> <span class="n">X</span><span class="p">[</span><span class="n">index_test</span><span class="p">]</span>
-    <span class="n">y_test</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">index_test</span><span class="p">]</span>
-
     <span class="c1"># Return the training and testing data subsets</span>
     <span class="k">return</span> <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span>
 
@@ -453,8 +446,9 @@ Ensure that you have executed the code block once you are done. You'll know the 
 <span class="c1"># Test shuffle_split_data</span>
 <span class="k">try</span><span class="p">:</span>
     <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">shuffle_split_data</span><span class="p">(</span><span class="n">housing_features</span><span class="p">,</span> <span class="n">housing_prices</span><span class="p">)</span>
+    
     <span class="k">print</span> <span class="s2">&quot;Successfully shuffled and split the data!&quot;</span>
-<span class="k">except</span><span class="p">:</span>
+<span class="k">except</span><span class="p">:</span> 
     <span class="k">print</span> <span class="s2">&quot;Something went wrong with shuffling and splitting the data.&quot;</span>
 </pre></div>
 
@@ -493,7 +487,7 @@ Ensure that you have executed the code block once you are done. You'll know the 
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong></p>
-<p>Training data is used to train the model and test data which was not seen by the model is used to validate the accuracy of the model. Training data can't be used to validate the model because it was used for the training.</p>
+<p>Training of the model is done by minimizing the error or maximing the performance of the model for the training data. However, this error or performance on the training data is not the real performance of the model because the real performance should be measured against unseen data. Therefore, we need to split the data into training and testing so that one set is used to train the model, and the other set is used to measure the real performance of the model.</p>
 
 </div>
 </div>
@@ -581,7 +575,7 @@ Ensure that you have executed the code block once you are done. You'll know the 
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> 
-I selected MSE because the prediced value is continuous and it is important to measure the diffence between the predicted value and the actual value. For regression, accuracy/precision/recall/F1 score can't be used.</p>
+I selected MSE because the prediced value is continuous and it is important to measure the diffence between the predicted value and the actual value. I selected MSE instead of MAE because I think it is better to give more weights to the points farther from the mean. However, MSE is less robust to outliers because it puts more weights on high errors. For regression, accuracy/precision/recall/F1 score can't be used.</p>
 
 </div>
 </div>
@@ -696,7 +690,7 @@ Ensure that you have executed the code block once you are done. You'll know the 
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p><strong>Answer: </strong> Cross validation separates a test set from training sets to overcome overfitting issues. The model is first trained with a training set, and the performance of model is validated by using the test set which wasn't seen by the model. Cross validation is useful to find the best parameter in grid search without having a risk of overfitting the model.</p>
+<p><strong>Answer: </strong> Cross validation separates a test set from training sets to overcome overfitting issues. The model is first trained with a training set, and the performance of model is validated by using the test set which wasn't seen by the model. Cross validation is different from a simple validation because the training and test set are randomly generated or samples iteratively so that the model can be trained and validated for most data set. This is very useful when the number of data is small and we don't want to leave out a set of data for test only. Cross validation is useful when using grid search because it allows to validate the performance of models for each parameter without having a risk of overfitting.</p>
 
 </div>
 </div>
@@ -1666,7 +1660,7 @@ wzDSMCPZMAzDMAzDMNIwI9kwDMMwDMMw0vj/Ih07yCSBKN4AAAAASUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
-I chose the one with max_depth = 6. As the training set increases, training error increases slightly and testing error decreases.</p>
+I chose the one with max_depth = 6. In most cases, the training error stays at the same level even though the size of training set increases. The training error is very small for high max_depth. It seems that the training error increases slightly when max_depth=3. When max_depth = 1, the testing error stops decreasing, and the model has a high bias. For other cases, the testing error tends to decreas as the size of training set increases.</p>
 
 </div>
 </div>
@@ -1687,7 +1681,7 @@ I chose the one with max_depth = 6. As the training set increases, training erro
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> 
-Model with max_depth = 1 suffers from high bias and underfitting. Model with max_depth=10 suffers from high variance, and sensitive to training sets.</p>
+Model with max_depth = 1 suffers from high bias and underfitting because the training error doesn't decrease even though we increase the number of the training set. Model with max_depth=10 suffers from high variance, and sensitive to training sets. This can be seen in the total error graph below because the testing error starts increasing from max_depth=10. When the model complexity increases, the bias goes down, but the variance starts going up and that's why the overall testing error starts going up. This is a bias and variance tradeoff and we want to find the point when the total error is minimum.</p>
 
 </div>
 </div>
