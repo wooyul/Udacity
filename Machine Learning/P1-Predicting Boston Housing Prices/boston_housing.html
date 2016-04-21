@@ -196,7 +196,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Importing a few necessary libraries</span>
@@ -262,7 +262,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[10]:</div>
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Number of houses in the dataset</span>
@@ -362,7 +362,7 @@ RM: The number of rooms indicates the size of the house, so it should be one of 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="n">CLIENT_FEATURES</span>
@@ -379,6 +379,41 @@ RM: The number of rooms indicates the size of the house, so it should be one of 
 <div class="output_area"><div class="prompt"></div>
 <div class="output_subarea output_stream output_stdout output_text">
 <pre>[[11.95, 0.0, 18.1, 0, 0.659, 5.609, 90.0, 1.385, 24, 680.0, 20.2, 332.09, 12.13]]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Find the values corresponding to the chosen features</span>
+<span class="n">chosen_features</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;CRIM&#39;</span><span class="p">,</span> <span class="s1">&#39;RM&#39;</span><span class="p">,</span> <span class="s1">&#39;PTRATIO&#39;</span><span class="p">]</span>
+<span class="n">features</span> <span class="o">=</span> <span class="n">city_data</span><span class="o">.</span><span class="n">feature_names</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">feature</span> <span class="ow">in</span> <span class="n">chosen_features</span><span class="p">:</span>
+    <span class="k">print</span> <span class="p">(</span><span class="n">feature</span><span class="p">,</span> <span class="n">CLIENT_FEATURES</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">features</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">feature</span><span class="p">)])</span>
+    
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area"><div class="prompt"></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>(&apos;CRIM&apos;, 11.95)
+(&apos;RM&apos;, 5.609)
+(&apos;PTRATIO&apos;, 20.2)
 </pre>
 </div>
 </div>
@@ -599,7 +634,7 @@ Ensure that you have executed the code block once you are done. You'll know the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[27]:</div>
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="c1"># Put any import statements you need for this code block</span>
@@ -707,7 +742,7 @@ Ensure that you have executed the code block once you are done. You'll know the 
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[7]:</div>
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">def</span> <span class="nf">learning_curves</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">):</span>
@@ -1660,7 +1695,8 @@ wzDSMCPZMAzDMAzDMNIwI9kwDMMwDMMw0vj/Ih07yCSBKN4AAAAASUVORK5CYII=
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong>
-I chose the one with max_depth = 6. In most cases, the training error stays at the same level even though the size of training set increases. The training error is very small for high max_depth. It seems that the training error increases slightly when max_depth=3. When max_depth = 1, the testing error stops decreasing, and the model has a high bias. For other cases, the testing error tends to decreas as the size of training set increases.</p>
+I chose the one with max_depth = 6. The training error slightly increases as the size of training set increases, but the increase looks negligible and the training error is close to zero.</p>
+<p>The testing error sharpely decreaed when the size is small around 20. After that point, the error continues to decrease though it is not monotonic. Roughly speaking, it seems that the test error didn't decrease much after the training size reaches 150.</p>
 
 </div>
 </div>
@@ -1681,7 +1717,7 @@ I chose the one with max_depth = 6. In most cases, the training error stays at t
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <p><strong>Answer: </strong> 
-Model with max_depth = 1 suffers from high bias and underfitting because the training error doesn't decrease even though we increase the number of the training set. Model with max_depth=10 suffers from high variance, and sensitive to training sets. This can be seen in the total error graph below because the testing error starts increasing from max_depth=10. When the model complexity increases, the bias goes down, but the variance starts going up and that's why the overall testing error starts going up. This is a bias and variance tradeoff and we want to find the point when the total error is minimum.</p>
+The model with max_depth = 1 suffers from high bias and underfitting because the training error doesn't decrease even though we increase the number of the training set. In the model with max_depth=10, the training error remains 0 and the test error continues to decrease slightly, but the gap between training error and test error didn't decrease much.</p>
 
 </div>
 </div>
@@ -2112,7 +2148,7 @@ Training error decreases as the maximum depth increases, but the testing error s
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[28]:</div>
+<div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="k">print</span> <span class="s2">&quot;Final model has an optimal max_depth parameter of&quot;</span><span class="p">,</span> <span class="n">reg</span><span class="o">.</span><span class="n">get_params</span><span class="p">()[</span><span class="s1">&#39;max_depth&#39;</span><span class="p">]</span>
@@ -2162,7 +2198,7 @@ I ran the code block a few times, and 4 appears most frequently as an optimal de
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[29]:</div>
+<div class="prompt input_prompt">In&nbsp;[24]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython2"><pre><span></span><span class="n">sale_price</span> <span class="o">=</span> <span class="n">reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">CLIENT_FEATURES</span><span class="p">)</span>
